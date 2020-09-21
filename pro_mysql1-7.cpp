@@ -1,0 +1,7 @@
+-- 코드를 입력하세요
+SELECT NAME
+FROM ANIMAL_INS
+ORDER BY DATETIME
+LIMIT 1;
+
+//상위 N개 레코드는 LIMIT (갯수)로 함. 
