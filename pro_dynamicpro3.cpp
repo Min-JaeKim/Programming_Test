@@ -6,7 +6,7 @@ using namespace std;
 int solution(int m, int n, vector<vector<int>> puddles) {
     int answer = 0;
     int map[101][101] = {0,};
-    int ans[101][101] = {0,};
+    int ans[101][101];
     for(int i = 0; i<puddles.size(); i++)
         map[puddles[i][1]][puddles[i][0]] = 1;
     ans[1][0] = 1;
@@ -16,6 +16,6 @@ int solution(int m, int n, vector<vector<int>> puddles) {
             else ans[i][j] = (ans[i-1][j] + ans[i][j-1]) % 1000000007;
         }
     }
-    answer = ans[m][n];
+    answer = ans[n][m];
     return answer;
 }
