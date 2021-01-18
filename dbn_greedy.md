@@ -63,3 +63,29 @@ print(result)
 > 3. reverse로 sort하는 것.
 > 4. 자꾸 무한루프가 도는데 원인을 밝혀내지 못했다. 헉 뭐지? 갑자기 된다. 왜지?
 > 5. 아 왜인지 알아냈는데 for문을 돌다 보면 어느순간 b보다 더 커지게 되고, 나는 b와 같을 때에만 무한루프 while문을 탈출하게 설정해 놨으니 계속 무한루프를 도는 것이다.
+
+
+
+### 모범답안
+
+```python
+n,m,k = map(int, input().split())
+data = list(map(int, input().split()))
+
+data.sort()
+first = data[n-1]
+second = data[n-2]
+
+count = int(m / (k+1)) * k
+count += m % (k+1)
+# 가장 큰 수가 더해지는 횟수 계산
+
+result = 0
+result += (count) * first # 가장 큰 수 더하기
+result += (m - count) * second # 두 번째로 큰 수 더하기
+
+print(result)
+
+## kia~ 엄청 깔끔한 모범답안. 보고 배우자.
+```
+
