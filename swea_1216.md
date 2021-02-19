@@ -1,6 +1,6 @@
 # python
 
-## swea d3 1216 회문1
+## swea d3 1216 회문2
 
 https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AV14Rq5aABUCFAYi
 
@@ -168,5 +168,54 @@ https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AV1
   
   > 높은 숫자부터 내려 가는 함수.. 대박대박
   >
-  > * __zip(*a)__ : 하나로 압축할 수 있는 내장함수 
+  > * __zip(*a)__ : 하나로 압축할 수 있는 내장함수
+  
+  
+  
+```python
+  207ms
+  
+  import sys
+  sys.stdin = open('./input.txt')
+  
+  def palindrome(check, board): # 체크할 단어의 길이, 배열
+      for word in board: # 리스트를 돌면서 
+          for start in range(100 - check + 1): # check할 단어 인덱스가 넘지 않도록 for문
+              for count in range(check // 2): # 회문이니 2로 나눠서 계산하는 동안에
+                  l = start + count # (내가 보기 쉽도록 변수를 만듦) 왼쪽에서부터
+                  r = start + check -1 -count #오른쪽으로 한 칸 씩
+                  left = word[l] # 비교 길이의 왼쪽 인덱스
+                  right = word[r] # 오른쪽 인덱스 
+                  if left != right: # 같지 않으면 다음 인덱스로 넘어감
+                      break
+              else: # 만약에 문장이 같아서 for문에 걸리지 않았다면
+                  return check # 길이를 리턴
+      return 0
+  
+  for _ in range(1, 11):
+      tc = int(input())
+      # 가로 기준
+      row = [input() for _ in range(100)]
+      # 세로 기준
+      col = [''.join(abc) for abc in zip(*row)]
+  
+      # 가로 검색
+      result = 1
+      for check in range(2, 101):
+          if check > result + 2: # 이게 중요한 개념인데, 현재 가장 길다고 치는 회문의 길이는,, 홀수 길이라면 계속해서 홀수인 길이로 회문일테고, 짝수 길이라면 계속해서 작수 길이로 회문일 것이다. 그래서 홀수, 홀수, 가다가 갑자기 짝수로 회문이 바뀔이 없으니 바로 끝내버리는 것이다.
+              break
+          if result < palindrome(check, row):
+              result = check
+  
+      # 세로 검색
+      for check in range(result + 1, 101):
+          if check > result + 2:
+              break
+          if result < palindrome(check, col):
+              result = check
+  
+      print('#{} {}'.format(tc, result))
+  ```
+  
+  > 천재인가 싶을 정도로 감탄스러운 코드,, 이렇게 멋지게 나올 수도 있구나 싶다. 진짜 멋있다. 본 받고 싶을 정도,,
 
