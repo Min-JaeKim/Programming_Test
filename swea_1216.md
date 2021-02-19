@@ -139,41 +139,34 @@ https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AV1
 * 모범답안
 
   ```python
-  196ms
+  1700ms
   
-  def get_solution2(arr, m):
-      for word in arr:  # 1 ~ 100
-          for s in range(100 - m + 1):
-              for k in range(m//2):
-                  if word[s+k] != word[s + m -1 -k]:
-                      break
-              else:
-                  return m
+  import sys
+  sys.stdin = open('./input.txt')
+  
+  def my_func(n):
+      for i in range(100):
+          for j in range(100-n+1):
+              tmp = arr[i][j:j+n]
+              tmp2 = rearr[i][j:j+n]
+              if tmp == tmp[::-1] or tmp2 == tmp2[::-1]:
+                  return n
       return 0
-   
-   
-  T = 10
-  for _ in range(1, T+1):
-      t = int(input())
-      a = [input() for _ in range(100)]
-      b = [''.join(x) for x in zip(*a)]
-   
-      maxLength = 1
-      for m in range(2, 101):
-          if m > maxLength + 2: break
-          if maxLength < get_solution2(a, m):
-              maxLength = m
-   
-      m = maxLength + 1
-      for m in range(maxLength+1, 101):
-          if m > maxLength + 2: break
-          if maxLength < get_solution2(b, m):
-              maxLength = m
-   
-      print('#%d %s' % (t, maxLength))
+  
+  
+  for tc in range(1,11):
+      n = int(input())
+      arr = [input() for _ in range(100)]
+      rearr = list(zip(*arr))
+  
+      for i in range(99, 1, -1):
+          ans = my_func(i)
+          if ans != 0:
+              break
+      print("#%d %d" % (tc, ans))
   ```
-
-  > 말도 안된다 .. 이게 백몇 ms가 나올 수 있는 문제가 아니라고 생각했다.
+  
+  > 높은 숫자부터 내려 가는 함수.. 대박대박
   >
   > * __zip(*a)__ : 하나로 압축할 수 있는 내장함수 
 
