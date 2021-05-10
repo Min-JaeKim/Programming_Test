@@ -4,7 +4,7 @@
 
 https://www.acmicpc.net/problem/15684
 
-> python3 ms..
+> python3 ms.
 >
 > pypy3 ms
 
