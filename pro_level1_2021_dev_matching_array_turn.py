@@ -60,12 +60,12 @@ def solution(rows, columns, queries):
             arr[r][c] = tmp[-2]
             r, c = r, c - 1
         cnt, r, c = 0, r - 1, c + 1
-        while cnt < er - sr - 1:
+        while cnt < er - sr - 1: # 여기에서 -1을 해주어야
             tmp.append(arr[r][c])
             cnt += 1
             arr[r][c] = tmp[-2]
             r, c = r - 1, c
-        arr[sr-1][sc-1] = tmp[-1]
+        arr[sr-1][sc-1] = tmp[-1]	# 여기에 값이 제대로 들어감.
         answer.append(min(tmp))
     return answer
 ```
