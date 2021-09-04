@@ -4,7 +4,7 @@
 
 https://www.acmicpc.net/problem/16927
 
-> python3 ms
+> python3 1ms
 
 * 문제
 
