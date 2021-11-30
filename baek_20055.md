@@ -4,7 +4,7 @@
 
 https://www.acmicpc.net/problem/20055
 
-> python3 ms
+> python3 1976ms
 
 
 
@@ -51,45 +51,105 @@ https://www.acmicpc.net/problem/20055
 
 
 ```python
+import sys
+from collections import deque
+input = sys.stdin.readline
 
+
+def sol():
+    n, k = map(int, input().split())
+    arr = list(map(int, input().split()))
+    robot = deque([0] * n)
+    arr = deque(arr)
+    cnt = 1
+
+    while 1:
+        arr.rotate(1)
+        robot.rotate(1)
+        robot[n-1] = 0
+
+        for i in range(n-1, 0, -1):
+            if robot[i-1] and not robot[i] and arr[i]:
+                robot[i], robot[i-1] = 1, 0
+                arr[i] -= 1
+                if i == n-1:
+                    robot[i] = 0
+
+        if arr[0] and not robot[0]:
+            arr[0] -= 1
+            robot[0] = 1
+
+        if arr.count(0) >= k:
+            break
+        cnt += 1
+
+    print(cnt)
+
+
+sol()
 ```
 
-> 
+> 와 문제가 무슨말인지 몰라서 며칠 동안 못풀고 있었는데 말이야,,? 오늘 아침 읽어 보니까 갑자기 알겠더라고,, 왜지? 참 이상하다. 이문제 이해 못해서 이번 생에는 끝끝내 못 풀 줄 알았단 말이지,,  결국 풀었군 오래 걸리긴 했지만 ㅎㅎ
+>
+> 그냥,, 구현이다 문제에 주어진 대로만 코드를 짜면 되는 구현,, 그리고 한 가지 유의할 것은 로봇은 내리는 위치에 오면 과감하게 내려버리기 때문에 처리를 해줘야 한다.
 
 
 
 * 모범답안
 
   ```python
+  1528
+  
   import sys
-  input = sys.stdin.readline
-  from collections import deque
   
-  n, k = map(int, input().split())
-  belt = deque(list(map(int, input().split())))
-  robot = deque([0]*n)
-  res = 0
+  def process(N, K):
+      belt = list(map(int, sys.stdin.readline().split()))
+      robot = [ False for _ in range(N) ]
   
-  while 1:
-      belt.rotate(1)
-      robot.rotate(1)
-      robot[-1]=0 #로봇이 내려가는 부분이니 0
-      if sum(robot): #로봇이 존재하면
-          for i in range(n-2, -1, -1): #로봇 내려가는 부분 인덱스 i-1 이므로 그 전인 i-2부터
-              if robot[i] == 1 and robot[i+1] == 0 and belt[i+1]>=1:
-                  robot[i+1] = 1
-                  robot[i] = 0
+      step = 0
+      numOfZero = 0
+  
+      # print('before', belt)
+      # print('before', robot)
+  
+      while True:
+          step += 1
+  
+          # 1. 회전 & 내리기
+          belt.insert(0, belt[2*N-1])
+          belt.pop()
+          robot.insert(0, False)
+          robot.pop()
+  
+          robot[N-1] = False
+  
+          # print('after', belt)
+          # print('after', robot)
+  
+          # 2. 로봇 움직이기
+          for i in range(N-2, 0, -1):
+              if robot[i] and not robot[i+1] and belt[i+1] > 0:
+                  robot[i+1] = True
+                  robot[i] = False
                   belt[i+1] -= 1
-          robot[-1]=0 #이 부분도 로봇 out -> 0임
-      if robot[0] == 0 and belt[0]>=1:
-          robot[0] = 1
-          belt[0] -= 1
-      res += 1
-      if belt.count(0) >= k:
-          break
-                  
-  print(res)
+                  if (belt[i+1] == 0): numOfZero += 1
+  
+          # 3. 로봇 올리기
+          if belt[0] > 0:
+              robot[0] = True
+              belt[0] -= 1
+              if (belt[0] == 0): numOfZero += 1
+  
+          # print('final', belt)
+          # print('final', robot)
+  
+          # 4. 내구도 체크
+          if numOfZero >= K: return step
+  
+  N, K = map(int, sys.stdin.readline().split())
+  
+  print(process(N, K))
   ```
   
-  > 
+  > 아 insert와 pop을 쓰셧군
 
